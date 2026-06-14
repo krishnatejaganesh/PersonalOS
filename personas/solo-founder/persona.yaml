@@ -1,0 +1,87 @@
+# Solo Founder Persona
+
+# Use this persona if you're a solo founder running one or more businesses,
+# products, or side projects. It configures PersonalOS around revenue,
+# growth, and keeping operations running with a small team (or no team).
+
+persona:
+  name: solo-founder
+  description: "Bootstrapped founder running businesses, products, and projects"
+
+# What matters most, in order.
+# PersonalOS uses this to prioritise what to surface and when.
+priorities:
+  - revenue_and_cash_flow
+  - product_quality
+  - customer_retention
+  - growth_and_acquisition
+  - operational_efficiency
+
+# Morning briefing focus areas (Chief of Staff uses these)
+briefing_focus:
+  - urgent_emails          # customer issues, partner replies, investor notes
+  - revenue_signals        # any drops, anomalies, or milestones
+  - calendar_conflicts     # overlapping calls, missed prep
+  - top_3_priorities       # what to actually do today
+  - one_market_insight     # competitor move, relevant news
+
+# Autonomous decisions the agent can make without asking
+# Keep this list short — it determines what the agent does without checking with you
+autonomous_ok:
+  - send_telegram_notification
+  - read_emails
+  - read_calendar
+  - search_web
+  - create_draft         # drafts only — never sends without approval
+  - create_branch        # dev agent: branch creation only
+
+# Requires explicit confirmation before action
+requires_confirmation:
+  - send_email
+  - merge_pull_request
+  - deploy_to_production
+  - delete_anything
+  - spend_money
+
+# Example businesses to fill in during setup
+# Hermes will ask you to fill these in on first run
+businesses:
+  - type: digital_product       # SaaS, tools, content
+    example_note: "PDF tools site — track daily revenue, conversion, churn"
+  - type: physical_location     # restaurant, store, studio
+    example_note: "Restaurant — track covers, revenue vs forecast, reviews"
+
+# Communication preferences
+communication:
+  style: brief_bullets          # brief_bullets | detailed_prose | mixed
+  urgent_threshold: high        # low | medium | high (what counts as urgent)
+  daily_report_format: telegram # telegram | email | slack
+  language: English
+
+# Default model overrides for this persona
+# (leave blank to use .env defaults)
+models:
+  primary: ""
+  fast: "google/gemini-2.5-flash"    # cost-efficient for high daily task volume
+  code: ""
+  research: ""
+
+# Integrations especially useful for this persona
+recommended_integrations:
+  - google_workspace   # email + calendar
+  - github             # code + PRs
+  - stripe             # revenue monitoring
+  - telegram           # mobile alerts
+
+# Starter memory to inject on setup
+# These give the agent immediate context without an interview
+starter_memory:
+  - key: persona_type
+    value: "Solo founder with multiple businesses. Prioritise revenue and product quality."
+    type: context
+  - key: communication_style
+    value: "Brief bullet points. Skip pleasantries. Flag urgency explicitly."
+    type: preference
+  - key: approval_required
+    value: "Always show me before sending emails, merging code, or spending money."
+    type: preference

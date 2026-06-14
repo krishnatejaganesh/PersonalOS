@@ -1,0 +1,34 @@
+# Developer Agent Configuration
+
+description: "Code, bugs, pull requests, architecture review, and deployments"
+
+model: "${CODE_MODEL}"
+
+tools:
+  - read_file
+  - write_file
+  - run_terminal
+  - read_github
+  - write_github
+  - web_search
+  - run_tests
+  - read_memory
+
+triggers:
+  - "bug|error|crash|broken|failing|fix"
+  - "code|coding|implement|build|develop"
+  - "pull request|PR|branch|merge|commit|deploy"
+  - "refactor|clean up|optimise|optimize"
+  - "test|testing|spec|coverage"
+  - "api|endpoint|route|database|schema|migration"
+  - "performance|slow|speed|latency"
+  - "security|vulnerability|auth|authentication"
+  - "@developer|@dev"
+
+memory:
+  read_on_start: true
+  tags:
+    - codebase
+    - tech_stack
+    - architecture
+    - deployment

@@ -1,0 +1,25 @@
+# SEO Agent Configuration
+
+description: "SEO strategy, keyword research, content writing, and organic growth"
+
+model: "${FAST_MODEL}"
+
+tools:
+  - web_search
+  - read_file
+  - write_file
+  - read_memory
+
+triggers:
+  - "seo|search engine|organic|ranking|keyword"
+  - "article|blog post|content|write.*post|write.*article"
+  - "traffic|backlink|serp|google"
+  - "@seo"
+
+memory:
+  read_on_start: true
+  tags:
+    - seo_strategy
+    - content_calendar
+    - keyword_research
+    - site_analytics

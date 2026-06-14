@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─── Secret scanning ────────────────────────────────────────────────────
+  secrets:
+    name: Scan for leaked secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ─── Validate config files ──────────────────────────────────────────────
+  validate-configs:
+    name: Validate agent configs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Validate all YAML files
+        run: |
+          python3 - << 'EOF'
+          import yaml
+          import sys
+          from pathlib import Path
+
+          errors = []
+          for yaml_file in Path(".").rglob("*.yaml"):
+            if ".git" in str(yaml_file):
+              continue
+            try:
+              with open(yaml_file) as f:
+                yaml.safe_load(f)
+            except yaml.YAMLError as e:
+              errors.append(f"{yaml_file}: {e}")
+
+          if errors:
+            for e in errors:
+              print(f"❌ {e}")
+            sys.exit(1)
+          else:
+            print(f"✅ All YAML files valid")
+          EOF
+
+  # ─── Python lint + type check ───────────────────────────────────────────
+  python:
+    name: Python lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dev dependencies
+        run: pip install ruff mypy
+
+      - name: Ruff lint
+        run: ruff check core/ integrations/ --select E,F,W,I
+
+      - name: Type check
+        run: mypy core/ --ignore-missing-imports
+
+  # ─── Validate persona files ─────────────────────────────────────────────
+  validate-personas:
+    name: Validate persona structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required persona fields
+        run: |
+          python3 - << 'EOF'
+          import yaml
+          import sys
+          from pathlib import Path
+
+          REQUIRED_FIELDS = ["persona", "priorities", "briefing_focus",
+                             "autonomous_ok", "requires_confirmation",
+                             "communication", "starter_memory"]
+          errors = []
+
+          for persona_file in Path("personas").rglob("persona.yaml"):
+            with open(persona_file) as f:
+              data = yaml.safe_load(f)
+            for field in REQUIRED_FIELDS:
+              if field not in data:
+                errors.append(f"{persona_file}: missing required field '{field}'")
+
+          if errors:
+            for e in errors:
+              print(f"❌ {e}")
+            sys.exit(1)
+          else:
+            print("✅ All personas valid")
+          EOF
+
+  # ─── Check .env.example stays in sync ──────────────────────────────────
+  env-docs:
+    name: Check .env.example is documented
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify no undocumented variables
+        run: |
+          # Every variable in .env.example should have a comment above it
+          python3 - << 'EOF'
+          import sys
+          lines = open(".env.example").readlines()
+          errors = []
+          for i, line in enumerate(lines):
+            line = line.strip()
+            if "=" in line and not line.startswith("#"):
+              # Check if the line above is a comment
+              if i > 0 and not lines[i-1].strip().startswith("#"):
+                errors.append(f"Line {i+1}: {line.split('=')[0]} has no comment")
+          if errors:
+            for e in errors: print(f"⚠️  {e}")
+            # Warning only, not failure — we don't want to block PRs for this
+          else:
+            print("✅ All .env variables documented")
+          EOF

@@ -1,0 +1,25 @@
+# PersonalOS Python Dependencies
+
+# Web framework
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+
+# Database
+asyncpg>=0.29.0
+
+# HTTP client
+httpx>=0.27.0
+
+# Task scheduling
+apscheduler>=3.10.4
+
+# Configuration
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+
+# Telegram bot
+python-telegram-bot>=21.0
+
+# Utilities
+tenacity>=8.3.0      # retry logic
+structlog>=24.1.0    # structured logging

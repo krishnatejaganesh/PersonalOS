@@ -1,0 +1,129 @@
+version: "3.9"
+
+services:
+
+  # ─── Core API ──────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: personalos-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://personalos:personalos@db:5432/personalos}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_USER_ID=${TELEGRAM_USER_ID}
+      - PRIMARY_MODEL=${PRIMARY_MODEL:-anthropic/claude-sonnet-4-6}
+      - FAST_MODEL=${FAST_MODEL:-google/gemini-2.5-flash}
+      - CODE_MODEL=${CODE_MODEL:-anthropic/claude-sonnet-4-6}
+      - RESEARCH_MODEL=${RESEARCH_MODEL:-anthropic/claude-opus-4-6}
+      - YOUR_NAME=${YOUR_NAME:-User}
+      - TIMEZONE=${TIMEZONE:-UTC}
+      - LOCATION=${LOCATION}
+      - PERSONA=${PERSONA:-default}
+      - SECRET_KEY=${SECRET_KEY}
+      - REQUIRE_CONFIRMATION=${REQUIRE_CONFIRMATION:-true}
+      - ENABLE_BROWSER_AUTOMATION=${ENABLE_BROWSER_AUTOMATION:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DRY_RUN=${DRY_RUN:-false}
+    volumes:
+      - ./agents:/app/agents:ro
+      - ./personas:/app/personas:ro
+      - ./skills:/app/skills:ro
+      - ./logs:/app/logs
+      - personalos-memory:/app/memory
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── Scheduler (cron jobs) ─────────────────────────────────────────────────
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: personalos-scheduler
+    restart: unless-stopped
+    command: python -m core.scheduler
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://personalos:personalos@db:5432/personalos}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_USER_ID=${TELEGRAM_USER_ID}
+      - PRIMARY_MODEL=${PRIMARY_MODEL:-anthropic/claude-sonnet-4-6}
+      - FAST_MODEL=${FAST_MODEL:-google/gemini-2.5-flash}
+      - TIMEZONE=${TIMEZONE:-UTC}
+      - MORNING_BRIEFING_TIME=${MORNING_BRIEFING_TIME:-08:00}
+      - MIDDAY_CHECK_TIME=${MIDDAY_CHECK_TIME:-12:00}
+      - EVENING_WRAP_TIME=${EVENING_WRAP_TIME:-19:00}
+      - WEEKLY_REVIEW_DAY=${WEEKLY_REVIEW_DAY:-0}
+      - WEEKLY_REVIEW_TIME=${WEEKLY_REVIEW_TIME:-09:00}
+      - ENABLE_MORNING_BRIEFING=${ENABLE_MORNING_BRIEFING:-true}
+      - ENABLE_MIDDAY_CHECK=${ENABLE_MIDDAY_CHECK:-true}
+      - ENABLE_EVENING_WRAP=${ENABLE_EVENING_WRAP:-true}
+      - ENABLE_WEEKLY_REVIEW=${ENABLE_WEEKLY_REVIEW:-true}
+    volumes:
+      - ./agents:/app/agents:ro
+      - ./logs:/app/logs
+    depends_on:
+      - api
+
+  # ─── PostgreSQL ────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: personalos-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: personalos
+      POSTGRES_USER: personalos
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-personalos}
+    volumes:
+      - personalos-db:/var/lib/postgresql/data
+      - ./memory/schemas/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U personalos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # Don't expose port publicly — only accessible within Docker network
+    # Uncomment below for local dev access:
+    # ports:
+    #   - "5432:5432"
+
+  # ─── Redis ────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: personalos-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - personalos-redis:/data
+
+  # ─── Browser automation (Playwright) ──────────────────────────────────────
+  browser:
+    image: mcr.microsoft.com/playwright:v1.44.0-jammy
+    container_name: personalos-browser
+    restart: unless-stopped
+    environment:
+      - DISPLAY=:99
+    profiles:
+      - browser  # Only starts if ENABLE_BROWSER_AUTOMATION=true or --profile browser
+
+volumes:
+  personalos-db:
+    driver: local
+  personalos-redis:
+    driver: local
+  personalos-memory:
+    driver: local

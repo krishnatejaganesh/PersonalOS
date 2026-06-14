@@ -1,0 +1,26 @@
+# Support Agent Configuration
+
+description: "Customer email drafts, complaint handling, and ticket routing"
+
+model: "${FAST_MODEL}"
+
+tools:
+  - read_email
+  - write_file
+  - read_memory
+  - web_search
+
+triggers:
+  - "customer|client|user complaint|refund|angry|upset"
+  - "support|ticket|issue|help desk"
+  - "reply to|respond to|draft.*email|email.*draft"
+  - "churn|cancel|cancellation|retention"
+  - "@support|@cs"
+
+memory:
+  read_on_start: true
+  tags:
+    - business_policies
+    - refund_policy
+    - brand_voice
+    - product_context

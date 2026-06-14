@@ -1,0 +1,54 @@
+# Chief of Staff Agent Configuration
+
+description: "Daily operations, email triage, calendar, priorities, and task delegation"
+
+model: "${PRIMARY_MODEL}"
+
+tools:
+  - web_search
+  - read_email
+  - read_calendar
+  - send_telegram
+  - delegate_to_agent
+  - read_memory
+  - write_memory
+
+triggers:
+  - "what.*today"
+  - "morning|briefing|daily"
+  - "email|emails|inbox"
+  - "calendar|schedule|meeting"
+  - "priority|priorities|focus"
+  - "urgent|important|asap"
+  - "remind|reminder"
+  - "what should i"
+  - "catch me up"
+  - "summary|summarize|recap"
+
+cron:
+  morning_briefing:
+    schedule: "${MORNING_BRIEFING_TIME}"
+    days: "1-5"   # weekdays only
+    task: morning_briefing
+
+  midday_check:
+    schedule: "${MIDDAY_CHECK_TIME}"
+    task: urgent_check
+
+  evening_wrap:
+    schedule: "${EVENING_WRAP_TIME}"
+    task: evening_wrap
+
+  weekly_review:
+    schedule: "${WEEKLY_REVIEW_TIME}"
+    day: "${WEEKLY_REVIEW_DAY}"
+    task: weekly_review
+
+memory:
+  read_on_start: true
+  write_on_end: true
+  tags:
+    - context
+    - preference
+    - business
+    - relationship

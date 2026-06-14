@@ -1,0 +1,54 @@
+# Student Persona
+
+# Use this if you're studying at any level. Optimised around deadlines,
+# research, reading, and managing the cognitive load of coursework.
+
+persona:
+  name: student
+  description: "Student managing coursework, research, deadlines, and learning"
+
+priorities:
+  - upcoming_deadlines
+  - research_and_reading
+  - understanding_concepts
+  - exam_preparation
+  - wellbeing_and_balance
+
+briefing_focus:
+  - deadlines_this_week      # assignments, exams, submissions
+  - today_schedule           # lectures, seminars, study blocks
+  - one_learning_task        # something to move forward on today
+  - reading_list_progress    # what's outstanding
+
+autonomous_ok:
+  - send_telegram_notification
+  - search_web
+  - read_calendar
+  - create_draft
+  - summarise_document       # reading summaries
+
+requires_confirmation:
+  - send_email               # to tutors, professors, institutions
+  - delete_anything
+
+communication:
+  style: mixed               # sometimes detailed explanation is useful
+  urgent_threshold: medium
+  daily_report_format: telegram
+  language: English
+
+recommended_integrations:
+  - google_workspace         # university email + calendar
+  - notion                   # notes and reading lists
+  - telegram
+
+starter_memory:
+  - key: persona_type
+    value: "Student. Deadlines and understanding course material are the priority."
+    type: context
+  - key: communication_style
+    value: "Explain concepts clearly. Use examples. Don't just give answers — help me understand."
+    type: preference
+  - key: deadline_warning
+    value: "Warn me 3 days before any deadline. Flag exam dates 1 week ahead."
+    type: preference

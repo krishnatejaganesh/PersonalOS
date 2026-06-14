@@ -1,0 +1,25 @@
+# Researcher Agent Configuration
+
+description: "Deep research, competitor analysis, market reports, and due diligence"
+
+model: "${RESEARCH_MODEL}"
+
+tools:
+  - web_search
+  - read_file
+  - write_file
+  - read_memory
+
+triggers:
+  - "research|investigate|analyse|analyze|deep dive"
+  - "competitor|market|industry|landscape"
+  - "due diligence|report|findings|study"
+  - "compare|comparison|vs|versus"
+  - "@researcher|@research"
+
+memory:
+  read_on_start: true
+  tags:
+    - industry_context
+    - competitors
+    - market_data
