@@ -25,22 +25,53 @@ PersonalOS is an open-source personal AI operating system you deploy on your own
 ## Quick Start (30 minutes)
 
 ### What you need
-- A VPS with Ubuntu 22.04+ (2 vCPU, 4GB RAM minimum — [Hetzner €6/mo](https://hetzner.com) or [Hostinger $7/mo](https://hostinger.com))
-- An [OpenRouter](https://openrouter.ai) API key (~$20 starting credit)
-- [Hermes Agent](https://hermes-agent.nousresearch.com) (free, open source)
-- A Telegram account (for mobile notifications)
+- **A machine to run it on** — your Mac/Linux laptop, or a VPS ([Hetzner €6/mo](https://hetzner.com), [Hostinger $7/mo](https://hostinger.com))
+- **Docker Desktop** (Mac/Windows) or Docker Engine (Linux) — [get it here](https://www.docker.com/products/docker-desktop/)
+- **An [OpenRouter](https://openrouter.ai) API key** — ~$20 starting credit, covers weeks of use
+- **A Telegram bot** — takes 2 minutes, instructions below
 
-### Deploy
+### Step 1 — Create your Telegram bot
+
+Telegram is how PersonalOS talks to you. You need a bot token and your personal user ID.
+
+**Get your bot token:**
+1. Open Telegram and search for **@BotFather**
+2. Send it `/newbot`
+3. Choose a name (e.g. `My PersonalOS`) and a username (e.g. `mypersonalos_bot`)
+4. BotFather replies with a token that looks like: `7123456789:AAFx...` — copy it
+
+**Get your Telegram user ID:**
+1. Search for **@userinfobot** in Telegram
+2. Start it — it instantly replies with your numeric user ID (e.g. `123456789`)
+3. Copy that number
+
+You'll paste both into the setup wizard in a moment.
+
+### Step 2 — Get an OpenRouter key
+
+1. Go to [openrouter.ai/keys](https://openrouter.ai/keys) and sign up
+2. Add ~$20 credit (covers weeks of daily use)
+3. Create an API key — it starts with `sk-or-`
+
+### Step 3 — Run setup
 
 ```bash
 git clone https://github.com/krishnatejaganesh/personalos
 cd personalos
-cp .env.example .env
-nano .env   # add your OpenRouter key and Telegram bot token
 ./scripts/setup.sh
 ```
 
-That's it. The setup wizard asks 5 questions and you're running.
+The wizard asks for your name, timezone, OpenRouter key, Telegram token, and user ID — then starts everything automatically.
+
+### Step 4 — Send your bot a message
+
+Open Telegram, find your bot, and send:
+
+```
+Hello, are you there?
+```
+
+It should reply within a few seconds. You're running.
 
 ---
 
