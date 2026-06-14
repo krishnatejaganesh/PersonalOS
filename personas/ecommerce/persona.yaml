@@ -1,0 +1,86 @@
+# E-commerce Persona
+
+# Use this persona if you run an online store (Shopify, WooCommerce, custom),
+# manage ads, handle inventory, and deal with customer support at scale.
+# Configures PersonalOS around sales, fulfilment, and customer experience.
+
+persona:
+  name: ecommerce
+  description: "Online store owner managing products, ads, inventory, and support"
+
+# What matters most, in order.
+priorities:
+  - daily_revenue_and_orders
+  - customer_satisfaction
+  - inventory_health
+  - ad_performance_and_roas
+  - fulfilment_speed
+
+# Morning briefing focus areas
+briefing_focus:
+  - yesterday_revenue_vs_target   # orders, AOV, revenue gap
+  - urgent_support_tickets        # angry customers, refund requests, chargebacks
+  - low_stock_alerts              # items near reorder threshold
+  - ad_spend_anomalies            # overspend, underperforming campaigns
+  - top_3_priorities              # what to actually do today
+
+# Autonomous decisions the agent can make without asking
+autonomous_ok:
+  - send_telegram_notification
+  - read_emails
+  - read_calendar
+  - search_web
+  - create_draft                  # draft support replies, never sends without approval
+  - pull_store_analytics          # read-only data fetches
+
+# Requires explicit confirmation before action
+requires_confirmation:
+  - send_email
+  - update_product_price
+  - pause_ad_campaign
+  - issue_refund
+  - create_discount_code
+  - delete_anything
+
+# Store context — fill in during setup or tell the agent directly
+store:
+  platform: ""                    # shopify | woocommerce | custom | amazon
+  monthly_revenue_target: ""      # e.g. "$50,000"
+  primary_product_category: ""    # e.g. "apparel", "supplements", "electronics"
+  fulfilment: ""                  # self-fulfilled | 3pl | dropship | amazon_fba
+
+# Communication preferences
+communication:
+  style: brief_bullets
+  urgent_threshold: medium        # ecommerce moves fast — surface issues sooner
+  daily_report_format: telegram
+  language: English
+
+# Default model overrides
+models:
+  primary: ""
+  fast: "google/gemini-2.5-flash"   # high volume of small tasks (ticket drafts, stock checks)
+  code: ""
+  research: ""
+
+# Integrations especially useful for this persona
+recommended_integrations:
+  - google_workspace      # email + calendar
+  - telegram              # mobile alerts
+  - stripe                # payment + refund monitoring
+  - browser_automation    # works with any store dashboard without a native API
+
+# Starter memory injected on setup
+starter_memory:
+  - key: persona_type
+    value: "Ecommerce store owner. Top priorities: revenue, customer satisfaction, stock health."
+    type: context
+  - key: communication_style
+    value: "Brief bullets. Lead with numbers. Flag anything affecting revenue or customers."
+    type: preference
+  - key: approval_required
+    value: "Always ask before sending customer emails, issuing refunds, or changing prices."
+    type: preference
+  - key: urgent_signals
+    value: "Revenue drop >20% vs prior day, chargeback received, stock-out on hero product."
+    type: context

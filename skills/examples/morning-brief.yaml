@@ -1,0 +1,58 @@
+# Skill: Morning Brief
+#
+# Collects emails, calendar events, and top priorities into a single
+# Telegram message. Runs automatically via cron (see chief-of-staff config.yaml)
+# but can also be triggered manually: /skill run morning-brief
+
+name: morning-brief
+description: "Daily morning summary: emails, calendar, and top 3 priorities"
+agent: chief-of-staff
+version: "1.0"
+
+trigger_words:
+  - "morning brief"
+  - "what's on today"
+  - "catch me up"
+  - "daily summary"
+
+inputs:
+  days_ahead:
+    description: "How many days of calendar to include"
+    required: false
+    default: "1"
+
+prompt_template: |
+  You are {{memory:user_name}}'s Chief of Staff. Produce a concise morning briefing.
+
+  Pull from available tools:
+  1. Unread emails (last 12 hours) — flag any that need a reply today
+  2. Today's calendar events — note any conflicts or missing prep
+  3. Yesterday's open tasks that are still pending
+
+  Format the briefing as a Telegram message (use Markdown):
+
+  *Good morning, {{memory:user_name}}* ☀️
+
+  *📬 Emails needing attention:*
+  - [list — max 5, one line each]
+
+  *📅 Today's schedule:*
+  - [list events with time — skip if empty]
+
+  *🎯 Top 3 priorities:*
+  1.
+  2.
+  3.
+
+  Keep it under 300 words. Skip sections that have nothing to report.
+
+tools_required:
+  - read_email
+  - read_calendar
+  - read_memory
+  - send_telegram
+
+quality_signals:
+  - contains_priorities
+  - message_under_300_words
+  - sent_via_telegram

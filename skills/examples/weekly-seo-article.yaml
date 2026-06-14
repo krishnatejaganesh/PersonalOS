@@ -1,0 +1,71 @@
+# Skill: Weekly SEO Article
+#
+# Researches, outlines, and drafts an SEO article on a given topic.
+# Triggered by: /skill run weekly-seo-article topic="your topic"
+#
+# To use this as a template for your own skill:
+#   cp skills/examples/weekly-seo-article.yaml skills/my-skill.yaml
+#   Edit the fields below, then: personalos skill register my-skill
+
+name: weekly-seo-article
+description: "Research and draft an SEO-optimised article on any topic"
+agent: seo
+version: "1.0"
+
+# Words or phrases that trigger this skill automatically
+trigger_words:
+  - "write an article"
+  - "seo article"
+  - "blog post"
+  - "content piece"
+
+# Input the user provides (placeholders filled at runtime)
+inputs:
+  topic:
+    description: "The article topic or keyword to target"
+    required: true
+  word_count:
+    description: "Target word count"
+    required: false
+    default: "1200"
+  tone:
+    description: "Writing tone"
+    required: false
+    default: "professional but approachable"
+
+# The prompt template sent to the agent.
+# Use {{input_name}} for user-provided values.
+# Use {{memory:key}} to pull from persistent memory.
+prompt_template: |
+  You are an expert SEO content writer working for {{memory:user_name}}.
+
+  Write a complete SEO-optimised article on the topic: "{{topic}}"
+
+  Requirements:
+  - Target word count: {{word_count}} words
+  - Tone: {{tone}}
+  - Include: H1 title, meta description (155 chars max), 3-5 H2 sections,
+    a conclusion with a CTA, and a suggested URL slug
+  - Naturally include the primary keyword and 2-3 semantic variants
+  - Structure for featured snippet potential where possible
+
+  Format the output as:
+  SLUG: /your-suggested-slug
+  META: your meta description here
+  ---
+  [Full article in Markdown]
+
+# Tools the agent may use during this skill
+tools_required:
+  - web_search     # research the topic and check what's already ranking
+
+# Override the default model for this skill (optional)
+# model_override: google/gemini-2.5-pro
+
+# How to score the output of this skill (used by the self-improve loop)
+# The evaluator checks these signals after the task completes
+quality_signals:
+  - contains_slug
+  - contains_meta_description
+  - word_count_within_20_percent
+  - no_placeholder_text_remaining
