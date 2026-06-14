@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — PersonalOS</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e;
+      --accent: #7c3aed; --accent-light: #a78bfa;
+      --text: #e2e8f0; --muted: #94a3b8;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    aside {
+      width: 240px; flex-shrink: 0;
+      background: var(--surface); border-right: 1px solid var(--border);
+      padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2rem; display: block; }
+    .sidebar-logo span { color: var(--accent-light); }
+    .sidebar-section { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 1.5rem 0 0.5rem; }
+    .sidebar-link { display: block; padding: 0.35rem 0; font-size: 0.875rem; color: var(--muted); }
+    .sidebar-link:hover { color: var(--text); text-decoration: none; }
+    .sidebar-link.active { color: var(--accent-light); }
+
+    main { flex: 1; padding: 3rem 4rem; max-width: 780px; }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--muted); margin-bottom: 3rem; }
+
+    .faq-group { margin-bottom: 3rem; }
+    .faq-group-title {
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent-light); margin-bottom: 1rem;
+    }
+
+    details {
+      border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 0.75rem; overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    details[open] { border-color: var(--accent); }
+    summary {
+      padding: 1.1rem 1.25rem;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      list-style: none; user-select: none;
+      background: var(--surface);
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "+"; font-size: 1.2rem; color: var(--muted);
+      transition: transform 0.2s; flex-shrink: 0; margin-left: 1rem;
+    }
+    details[open] summary::after { transform: rotate(45deg); }
+    .faq-body {
+      padding: 1.1rem 1.25rem;
+      font-size: 0.9rem; color: var(--muted); line-height: 1.75;
+      border-top: 1px solid var(--border);
+    }
+    .faq-body p { margin-bottom: 0.75rem; }
+    .faq-body p:last-child { margin-bottom: 0; }
+    .faq-body a { color: var(--accent-light); }
+    .faq-body code {
+      background: #0f0f1a; border: 1px solid var(--border);
+      padding: 0.1rem 0.4rem; border-radius: 4px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em;
+      color: #c4b5fd;
+    }
+
+    @media (max-width: 700px) { aside { display: none; } main { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+
+<aside>
+  <a class="sidebar-logo" href="../">Personal<span>OS</span></a>
+  <div class="sidebar-section">Getting Started</div>
+  <a class="sidebar-link" href="index.html">Overview</a>
+  <a class="sidebar-link" href="quickstart.html">Quickstart</a>
+  <div class="sidebar-section">Guides</div>
+  <a class="sidebar-link" href="creating-agents.html">Creating Agents</a>
+  <a class="sidebar-link" href="connecting-data.html">Connecting Data</a>
+  <a class="sidebar-link" href="self-improve-loop.html">Self-Improve Loop</a>
+  <div class="sidebar-section">Reference</div>
+  <a class="sidebar-link active" href="faq.html">FAQ</a>
+  <a class="sidebar-link" href="https://github.com/krishnatejaganesh/personalos">GitHub</a>
+</aside>
+
+<main>
+  <h1>Frequently Asked Questions</h1>
+  <p class="subtitle">Everything people ask before deploying PersonalOS.</p>
+
+  <!-- GENERAL -->
+  <div class="faq-group">
+    <div class="faq-group-title">General</div>
+
+    <details>
+      <summary>What exactly is PersonalOS?</summary>
+      <div class="faq-body">
+        <p>PersonalOS is an open-source AI operating system you deploy on your own server. It gives you a team of specialised AI agents (Chief of Staff, Developer, SEO, Researcher, Support) backed by a persistent memory layer — all running on models you choose.</p>
+        <p>Think of it as your own private AI infrastructure, not a SaaS product someone else controls.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>How is this different from just using ChatGPT or Claude?</summary>
+      <div class="faq-body">
+        <p>ChatGPT and Claude start fresh every conversation. PersonalOS has persistent memory — it remembers your projects, preferences, workflows, and what worked last time.</p>
+        <p>It also runs multiple specialised agents on a schedule (morning briefings, automatic task routing, weekly reviews) rather than waiting for you to open a tab and type a prompt.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Do I need to know how to code?</summary>
+      <div class="faq-body">
+        <p>Basic terminal comfort is enough to get started. The setup script handles installation and configuration with a guided wizard. Most day-to-day use is through Telegram — no terminal needed.</p>
+        <p>If you want to build custom agents or integrations, Python knowledge helps but isn't required for the pre-built personas.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Is PersonalOS affiliated with Anthropic, OpenAI, or Google?</summary>
+      <div class="faq-body">
+        <p>No. PersonalOS is an independent open-source project. It uses these companies' models via API (through OpenRouter) but has no affiliation with any of them.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- MODELS -->
+  <div class="faq-group">
+    <div class="faq-group-title">Models &amp; Costs</div>
+
+    <details>
+      <summary>Which AI models does PersonalOS support?</summary>
+      <div class="faq-body">
+        <p>Any model available on <a href="https://openrouter.ai">OpenRouter</a> — including Claude, GPT-4, Gemini, Mistral, Llama, Perplexity, and more. You configure which model each agent uses in its <code>config.yaml</code>.</p>
+        <p>The default setup routes lightweight tasks to Gemini Flash and heavy reasoning to Claude Sonnet/Opus.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>What happens when a new model comes out?</summary>
+      <div class="faq-body">
+        <p>Change one line in the agent's config file. Your memory, workflows, and all past outcomes stay exactly as they were — nothing needs to be migrated or re-trained.</p>
+        <p>The weekly model watcher also sends you a Telegram report comparing current benchmarks so you know when a swap is worth it.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>How much does it cost to run?</summary>
+      <div class="faq-body">
+        <p>Roughly $30–60/month for personal use, $60–150/month if you're running business agents heavily.</p>
+        <p>The biggest cost is API usage. PersonalOS routes cheap tasks (summaries, email drafts) to fast, inexpensive models and only uses powerful models for complex reasoning — which cuts costs 5–10x versus using one model for everything.</p>
+        <p>VPS cost is typically $6–10/month (Hetzner or Hostinger).</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Can I run it with a local model like Ollama?</summary>
+      <div class="faq-body">
+        <p>Ollama support is on the roadmap. Currently PersonalOS routes through OpenRouter, which requires an API key. Local model support will be added in a future release.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="faq-group">
+    <div class="faq-group-title">Privacy &amp; Data</div>
+
+    <details>
+      <summary>Where does my data live?</summary>
+      <div class="faq-body">
+        <p>On your VPS. The memory layer (PostgreSQL) runs on your own server. PersonalOS doesn't send your memory or workflows to any third party — only the specific content of individual API calls goes to your chosen model provider.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Is it safe to connect my Gmail and calendar?</summary>
+      <div class="faq-body">
+        <p>Credentials are stored locally on your server as environment variables — they're never sent to PersonalOS developers or any external service beyond the Google API itself (which you authenticate directly via OAuth).</p>
+        <p>You can revoke access at any time from your Google account settings.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>What if my VPS goes down?</summary>
+      <div class="faq-body">
+        <p>Your data stays in the PostgreSQL database. The <code>update.sh</code> script handles restarts, and you can set up automatic backups with standard PostgreSQL tooling (<code>pg_dump</code> to S3 or any cloud storage).</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- AGENTS -->
+  <div class="faq-group">
+    <div class="faq-group-title">Agents &amp; Customisation</div>
+
+    <details>
+      <summary>Can I add my own agents?</summary>
+      <div class="faq-body">
+        <p>Yes. Copy an existing agent folder, edit the <code>soul.md</code> (identity) and <code>config.yaml</code> (model, tools, schedule), then register it with <code>personalos agent register my-agent</code>. See the <a href="creating-agents.html">Creating Agents guide</a> for the full walkthrough.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Which persona should I start with?</summary>
+      <div class="faq-body">
+        <p>Pick the one closest to your primary use case:</p>
+        <p><strong>Solo Founder</strong> — running a business, need leverage on ops and content.<br>
+        <strong>Freelancer</strong> — client work, invoicing, project tracking.<br>
+        <strong>Student</strong> — research, deadlines, knowledge management.<br>
+        <strong>E-commerce</strong> — store ops, ads, inventory, customer support.</p>
+        <p>You can switch or customise at any time — personas are just YAML config files.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Can I use PersonalOS from my phone?</summary>
+      <div class="faq-body">
+        <p>Yes — Telegram is the primary mobile interface. You can send tasks, receive briefings, approve actions, and get agent replies entirely through Telegram. A dedicated iOS/Android app is on the roadmap.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>How does the self-improve loop actually work?</summary>
+      <div class="faq-body">
+        <p>Every completed task is scored (0–1) and stored in your database. Before starting a new task of the same type, the agent retrieves the highest-scoring past workflow and uses it as a template. Over time, your agents build a personal library of what works specifically for you. See the <a href="self-improve-loop.html">Self-Improve Loop guide</a> for details.</p>
+      </div>
+    </details>
+  </div>
+
+</main>
+</body>
+</html>
