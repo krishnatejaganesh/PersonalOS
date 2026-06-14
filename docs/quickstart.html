@@ -60,60 +60,82 @@
   <a class="sidebar-link" href="index.html">Overview</a>
   <a class="sidebar-link active" href="quickstart.html">Quickstart</a>
   <div class="sidebar-section">Guides</div>
+  <a class="sidebar-link" href="telegram-setup.html">Telegram Setup</a>
   <a class="sidebar-link" href="creating-agents.html">Creating Agents</a>
   <a class="sidebar-link" href="connecting-data.html">Connecting Data</a>
   <a class="sidebar-link" href="self-improve-loop.html">Self-Improve Loop</a>
   <div class="sidebar-section">Reference</div>
   <a class="sidebar-link" href="faq.html">FAQ</a>
-  <a class="sidebar-link" href="https://github.com/krishnatejaganesh/personalos">GitHub</a>
+  <a class="sidebar-link" href="https://github.com/krishnatejaganesh/PersonalOS">GitHub</a>
 </aside>
 <main>
   <h1>Quickstart</h1>
-  <p class="subtitle">Deploy PersonalOS on your own VPS in about 30 minutes.</p>
+  <p class="subtitle">Get PersonalOS running on your machine or VPS in about 30 minutes.</p>
 
   <h2>What you need</h2>
   <ul>
-    <li>A VPS with Ubuntu 22.04+ (2 vCPU, 4GB RAM minimum)</li>
-    <li>An <a href="https://openrouter.ai">OpenRouter</a> API key (~$20 starting credit)</li>
-    <li>A Telegram account (for notifications and control)</li>
+    <li><strong>A machine to run it on</strong> — your Mac/Linux laptop, or a VPS (Hetzner €6/mo, Hostinger $7/mo)</li>
+    <li><strong>Docker Desktop</strong> (Mac/Windows) or Docker Engine (Linux)</li>
+    <li><strong>An <a href="https://openrouter.ai">OpenRouter</a> API key</strong> — ~$20 starting credit</li>
+    <li><strong>A Telegram bot</strong> — takes 2 minutes, see <a href="telegram-setup.html">Telegram Setup</a></li>
   </ul>
 
-  <h2>Steps</h2>
+  <h2>Before you run setup — create your Telegram bot</h2>
+  <p>PersonalOS talks to you through Telegram. You need a bot token and your user ID before running the setup wizard.</p>
 
   <div class="step">
     <div class="step-num">1</div>
     <div class="step-body">
-      <h3>Clone the repo</h3>
-      <pre>git clone https://github.com/krishnatejaganesh/personalos
-cd personalos</pre>
+      <h3>Create your bot</h3>
+      <p>Open Telegram and message <a href="https://t.me/botfather">@BotFather</a>. Send <code>/newbot</code>, pick a display name and username (must end in <code>bot</code>). BotFather replies with a token like:</p>
+      <pre>7123456789:AAF_abc123XYZexampleTokenHere</pre>
+      <p>Copy it — you'll paste it into the setup wizard.</p>
     </div>
   </div>
 
   <div class="step">
     <div class="step-num">2</div>
     <div class="step-body">
-      <h3>Configure your environment</h3>
-      <pre>cp .env.example .env
-nano .env</pre>
-      <p>Add your OpenRouter API key and Telegram bot token. Every setting is documented in the file.</p>
+      <h3>Get your user ID</h3>
+      <p>Message <a href="https://t.me/userinfobot">@userinfobot</a> on Telegram. It replies instantly with your numeric ID (e.g. <code>123456789</code>). Copy that too.</p>
     </div>
   </div>
+
+  <p>Full walkthrough with troubleshooting: <a href="telegram-setup.html">Telegram Setup guide →</a></p>
+
+  <h2>Deploy</h2>
 
   <div class="step">
     <div class="step-num">3</div>
     <div class="step-body">
-      <h3>Run the setup wizard</h3>
-      <pre>./scripts/setup.sh</pre>
-      <p>The wizard asks 5 questions, installs dependencies, initialises the database, and starts all agents.</p>
+      <h3>Clone and run setup</h3>
+      <pre>git clone https://github.com/krishnatejaganesh/PersonalOS
+cd PersonalOS
+./scripts/setup.sh</pre>
+      <p>The wizard asks for your name, timezone, OpenRouter key, Telegram token, and user ID — then starts everything automatically.</p>
     </div>
   </div>
 
   <div class="step">
     <div class="step-num">4</div>
     <div class="step-body">
-      <h3>Say hello on Telegram</h3>
-      <p>Open your Telegram bot and send: <strong>"What should I focus on today?"</strong></p>
-      <p>Your Chief of Staff agent will read your calendar, check emails, and give you your top 3 priorities.</p>
+      <h3>Send your bot a message</h3>
+      <p>Find your bot in Telegram and send: <strong>"Hello, are you there?"</strong></p>
+      <p>It should reply within a few seconds. You're running.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h3>Tell it about yourself</h3>
+      <p>The more context you give, the more useful PersonalOS is from day one. Paste this into the bot:</p>
+      <pre>Remember these things about me permanently:
+
+My name is [your name].
+My work: [describe what you do].
+My priorities: [e.g. revenue, product, family].
+Always ask before sending emails or taking any action.</pre>
     </div>
   </div>
 

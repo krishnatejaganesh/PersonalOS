@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telegram Setup — PersonalOS</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e;
+      --accent: #7c3aed; --accent-light: #a78bfa;
+      --text: #e2e8f0; --muted: #94a3b8; --code-bg: #0f0f1a;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    aside {
+      width: 240px; flex-shrink: 0;
+      background: var(--surface); border-right: 1px solid var(--border);
+      padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2rem; display: block; }
+    .sidebar-logo span { color: var(--accent-light); }
+    .sidebar-section { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 1.5rem 0 0.5rem; }
+    .sidebar-link { display: block; padding: 0.35rem 0; font-size: 0.875rem; color: var(--muted); }
+    .sidebar-link:hover { color: var(--text); text-decoration: none; }
+    .sidebar-link.active { color: var(--accent-light); }
+
+    main { flex: 1; padding: 3rem 4rem; max-width: 780px; }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--muted); margin-bottom: 2.5rem; }
+    h2 { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 0.75rem; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.4rem; }
+    p { color: var(--muted); margin-bottom: 1rem; line-height: 1.7; }
+    ul, ol { color: var(--muted); padding-left: 1.5rem; margin-bottom: 1rem; line-height: 1.9; }
+    li { margin-bottom: 0.25rem; }
+    code { background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.1em 0.4em; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; color: #c4b5fd; }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem 1.5rem;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: #c4b5fd; overflow-x: auto; line-height: 1.7; margin-bottom: 1.5rem;
+    }
+    .step {
+      display: flex; gap: 1rem; margin-bottom: 2rem; align-items: flex-start;
+    }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem;
+    }
+    .step-body h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; margin-top: 0; }
+    .callout {
+      background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+      border-radius: 6px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+    }
+    .callout p { margin: 0; font-size: 0.9rem; }
+    .issue { margin-bottom: 1.5rem; }
+    .issue h3 { color: var(--text); }
+
+    @media (max-width: 700px) { aside { display: none; } main { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+<aside>
+  <a class="sidebar-logo" href="../">Personal<span>OS</span></a>
+  <div class="sidebar-section">Getting Started</div>
+  <a class="sidebar-link" href="index.html">Overview</a>
+  <a class="sidebar-link" href="quickstart.html">Quickstart</a>
+  <div class="sidebar-section">Guides</div>
+  <a class="sidebar-link active" href="telegram-setup.html">Telegram Setup</a>
+  <a class="sidebar-link" href="creating-agents.html">Creating Agents</a>
+  <a class="sidebar-link" href="connecting-data.html">Connecting Data</a>
+  <a class="sidebar-link" href="self-improve-loop.html">Self-Improve Loop</a>
+  <div class="sidebar-section">Reference</div>
+  <a class="sidebar-link" href="faq.html">FAQ</a>
+  <a class="sidebar-link" href="https://github.com/krishnatejaganesh/PersonalOS">GitHub</a>
+</aside>
+<main>
+  <h1>Telegram Setup</h1>
+  <p class="subtitle">How to create your bot, get your credentials, and connect PersonalOS — step by step.</p>
+
+  <h2>Why Telegram?</h2>
+  <p>Telegram is how PersonalOS talks to you — morning briefings, task results, alerts, and your commands all flow through it. The bot API is free, works on every device, and gives you instant push notifications.</p>
+
+  <h2>Step 1 — Create your bot</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>Open BotFather</h3>
+      <p>In Telegram, search for <a href="https://t.me/botfather">@BotFather</a> (look for the blue verified checkmark). Tap <strong>Start</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>Create the bot</h3>
+      <p>Send <code>/newbot</code>. BotFather will ask for two things:</p>
+      <ul>
+        <li><strong>Display name</strong> — what appears in the chat header (e.g. <code>My PersonalOS</code>)</li>
+        <li><strong>Username</strong> — must be unique and end in <code>bot</code> (e.g. <code>mypersonalos_bot</code>)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>Copy your token</h3>
+      <p>BotFather replies with your API token:</p>
+      <pre>Done! Use this token to access the HTTP API:
+
+7123456789:AAF_abc123XYZexampleTokenHere</pre>
+      <p>Copy the token. You'll paste it into the setup wizard.</p>
+      <div class="callout"><p>Keep this token private — anyone with it can send messages as your bot.</p></div>
+    </div>
+  </div>
+
+  <h2>Step 2 — Get your user ID</h2>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>Message @userinfobot</h3>
+      <p>Search for <a href="https://t.me/userinfobot">@userinfobot</a> and tap Start. It replies immediately:</p>
+      <pre>Id: 123456789
+First: Krishna
+Last: Teja
+Username: @krishnateja</pre>
+      <p>Copy the number next to <code>Id:</code> — that's your Telegram user ID. PersonalOS uses it to only respond to you.</p>
+    </div>
+  </div>
+
+  <h2>Step 3 — Lock down your bot (recommended)</h2>
+
+  <p>By default your bot is publicly findable. Two quick settings in BotFather to tighten this:</p>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h3>Disable group chats</h3>
+      <p>Send <code>/mybots</code> to BotFather → select your bot → <strong>Bot Settings → Allow Groups? → Turn off</strong>.</p>
+      <p>Your bot is personal — it shouldn't be addable to group chats.</p>
+    </div>
+  </div>
+
+  <h2>Step 4 — Enter credentials during setup</h2>
+
+  <p>When you run <code>./scripts/setup.sh</code>, it asks:</p>
+  <pre>Telegram bot token: 7123456789:AAF_abc123...
+Your Telegram user ID: 123456789</pre>
+  <p>Paste them in. The script writes them to your <code>.env</code> file automatically.</p>
+
+  <p>If you've already run setup and need to update them, open <code>.env</code> and edit:</p>
+  <pre>TELEGRAM_BOT_TOKEN=7123456789:AAF_abc123...
+TELEGRAM_USER_ID=123456789</pre>
+  <p>Then restart:</p>
+  <pre>docker compose restart api</pre>
+
+  <h2>Step 5 — Test the connection</h2>
+
+  <p>Find your bot in Telegram (search by its username) and send:</p>
+  <pre>Hello</pre>
+  <p>It should reply within a few seconds. If it doesn't, check the logs:</p>
+  <pre>docker compose logs api --tail=50</pre>
+
+  <h2>Talking to PersonalOS</h2>
+  <p>Once connected, everything is plain English:</p>
+  <pre>What should I focus on today?
+Run the morning briefing now
+@developer fix the login bug on the checkout page
+Read my last 5 emails and flag anything urgent</pre>
+
+  <h2>Common issues</h2>
+
+  <div class="issue">
+    <h3>Bot doesn't respond at all</h3>
+    <p>Check the bot token is correct in <code>.env</code> and that the API container is running:</p>
+    <pre>docker compose ps
+docker compose logs api --tail=50</pre>
+  </div>
+
+  <div class="issue">
+    <h3>"Unauthorized" in the logs</h3>
+    <p>Your bot token is wrong or was regenerated. Get a new one from BotFather: send <code>/mybots</code> → select your bot → <strong>API Token → Revoke current token</strong>. Update <code>TELEGRAM_BOT_TOKEN</code> in <code>.env</code>, then run <code>docker compose restart api</code>.</p>
+  </div>
+
+  <div class="issue">
+    <h3>Bot responds to other people</h3>
+    <p>Your <code>TELEGRAM_USER_ID</code> in <code>.env</code> is wrong or missing. Get it from <a href="https://t.me/userinfobot">@userinfobot</a>, update <code>.env</code>, and restart.</p>
+  </div>
+
+  <div class="issue">
+    <h3>Messages are very slow</h3>
+    <p>PersonalOS polls Telegram by default. If you're on a VPS with a public IP you can switch to webhooks for instant delivery — see the <a href="connecting-data.html">Connecting Data guide</a>.</p>
+  </div>
+
+  <h2>Multiple devices</h2>
+  <p>Telegram syncs across all your devices automatically. Your bot messages appear on your phone, desktop, and web — no extra setup needed.</p>
+
+</main>
+</body>
+</html>
