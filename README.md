@@ -283,6 +283,7 @@ personalos/
 │   └── ecommerce/
 └── docs/
     ├── quickstart.md
+    ├── telegram-setup.md
     ├── creating-agents.md
     ├── connecting-data.md
     ├── self-improve-loop.md

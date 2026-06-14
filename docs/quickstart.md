@@ -27,6 +27,8 @@ You need:
    - Message [@userinfobot](https://t.me/userinfobot) — it replies with your numeric user ID (e.g. `123456789`)
    - Enter both when the setup script prompts for them
 
+   > Full walkthrough with troubleshooting: [telegram-setup.md](telegram-setup.md)
+
 ---
 
 ## Step 1 — SSH into your VPS
@@ -42,7 +44,7 @@ If you've never used SSH before: your VPS provider shows this command in their d
 ## Step 2 — Clone and run setup
 
 ```bash
-git clone https://github.com/personalos/personalos
+git clone https://github.com/krishnatejaganesh/PersonalOS
 cd personalos
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
@@ -178,6 +180,6 @@ docker compose logs db --tail=50
 
 ## Getting help
 
-- [GitHub Discussions](https://github.com/personalos/personalos/discussions) — questions and ideas
+- [GitHub Discussions](https://github.com/krishnatejaganesh/PersonalOS/discussions) — questions and ideas
 - [Discord](https://discord.gg/personalos) — live community chat
-- [Issues](https://github.com/personalos/personalos/issues) — bug reports
+- [Issues](https://github.com/krishnatejaganesh/PersonalOS/issues) — bug reports
