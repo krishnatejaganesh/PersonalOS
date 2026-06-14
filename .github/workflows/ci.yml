@@ -56,7 +56,7 @@ jobs:
             print(f"✅ All YAML files valid")
           EOF
 
-  # ─── Python lint + type check ───────────────────────────────────────────
+  # ─── Python lint + type check + tests ──────────────────────────────────
   python:
     name: Python lint
     runs-on: ubuntu-latest
@@ -68,13 +68,16 @@ jobs:
           python-version: "3.12"
 
       - name: Install dev dependencies
-        run: pip install ruff mypy
+        run: pip install ruff mypy pytest pytest-asyncio respx httpx pyyaml asyncpg
 
       - name: Ruff lint
         run: ruff check core/ integrations/ --select E,F,W,I
 
       - name: Type check
         run: mypy core/ --ignore-missing-imports
+
+      - name: Run tests
+        run: pytest tests/ -v
 
   # ─── Validate persona files ─────────────────────────────────────────────
   validate-personas:
