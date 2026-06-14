@@ -20,10 +20,12 @@ You need:
    - Set a monthly spending limit of $30 to avoid surprises
 
 3. **A Telegram bot**
-   - Open Telegram, message [@BotFather](https://t.me/botfather)
+   - Open Telegram and message [@BotFather](https://t.me/botfather)
    - Send `/newbot`
-   - Follow the prompts — you'll get a token like `7123456789:AAF...`
-   - Then message [@userinfobot](https://t.me/userinfobot) to get your user ID
+   - BotFather asks for a display name (e.g. `My PersonalOS`) then a username (must end in `bot`, e.g. `mypersonalos_bot`)
+   - BotFather replies with a token like `7123456789:AAF_abc123...` — copy it
+   - Message [@userinfobot](https://t.me/userinfobot) — it replies with your numeric user ID (e.g. `123456789`)
+   - Enter both when the setup script prompts for them
 
 ---
 
