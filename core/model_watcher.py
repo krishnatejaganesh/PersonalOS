@@ -10,11 +10,8 @@ you get alerted when something better drops, not surprised by it.
 
 from __future__ import annotations
 
-import json
 import logging
 from dataclasses import dataclass
-from datetime import date
-from typing import Optional
 
 import httpx
 
@@ -97,7 +94,12 @@ class ModelWatcher:
         lines.append("📊 *Current stack health check:*")
         for role, model_id in current_stack.items():
             result = await self._benchmark_model(model_id, "reasoning")
-            emoji = "✅" if result.score >= 0.8 else "⚠️" if result.score >= 0.6 else "❌"
+            if result.score >= 0.8:
+                emoji = "✅"
+            elif result.score >= 0.6:
+                emoji = "⚠️"
+            else:
+                emoji = "❌"
             lines.append(
                 f"  {emoji} {role}: `{model_id}` "
                 f"(score: {result.score:.0%}, {result.latency_ms}ms)"
