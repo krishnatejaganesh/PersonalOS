@@ -2,7 +2,6 @@
 
 **Your model-agnostic personal AI operating system. Deploy once, swap models forever.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/krishnatejaganesh/personalos?style=social)](https://github.com/krishnatejaganesh/personalos)
 [![Discord](https://img.shields.io/badge/Discord-Community-5865F2)](https://discord.gg/personalos)
 
@@ -291,10 +290,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add:
 
 ---
 
-## License
-
-MIT — use it, fork it, build on it. See [LICENSE](LICENSE).
-
----
 
 *PersonalOS is not affiliated with Anthropic, OpenAI, Google, or any AI company. It's a community project.*
