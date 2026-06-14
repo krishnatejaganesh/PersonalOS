@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connecting Data — PersonalOS</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e; --accent: #7c3aed; --accent-light: #a78bfa; --text: #e2e8f0; --muted: #94a3b8; --code-bg: #0f0f1a; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    aside { width: 240px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .sidebar-logo { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2rem; display: block; }
+    .sidebar-logo span { color: var(--accent-light); }
+    .sidebar-section { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 1.5rem 0 0.5rem; }
+    .sidebar-link { display: block; padding: 0.35rem 0; font-size: 0.875rem; color: var(--muted); }
+    .sidebar-link:hover { color: var(--text); text-decoration: none; }
+    .sidebar-link.active { color: var(--accent-light); }
+    main { flex: 1; padding: 3rem 4rem; max-width: 780px; }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--muted); margin-bottom: 2.5rem; }
+    h2 { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 0.75rem; }
+    p { color: var(--muted); margin-bottom: 1rem; line-height: 1.7; }
+    pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: #c4b5fd; overflow-x: auto; line-height: 1.7; margin-bottom: 1.5rem; }
+    @media (max-width: 700px) { aside { display: none; } main { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+<aside>
+  <a class="sidebar-logo" href="../">Personal<span>OS</span></a>
+  <div class="sidebar-section">Getting Started</div>
+  <a class="sidebar-link" href="index.html">Overview</a>
+  <a class="sidebar-link" href="quickstart.html">Quickstart</a>
+  <div class="sidebar-section">Guides</div>
+  <a class="sidebar-link" href="creating-agents.html">Creating Agents</a>
+  <a class="sidebar-link active" href="connecting-data.html">Connecting Data</a>
+  <a class="sidebar-link" href="self-improve-loop.html">Self-Improve Loop</a>
+  <div class="sidebar-section">Reference</div>
+  <a class="sidebar-link" href="https://github.com/krishnatejaganesh/personalos">GitHub</a>
+</aside>
+<main>
+  <h1>Connecting Data</h1>
+  <p class="subtitle">PersonalOS is only as useful as the data it can see. Connect your sources in minutes.</p>
+
+  <h2>Available integrations</h2>
+  <pre>/skill load google-workspace     # Gmail + Calendar + Drive
+/skill load github               # Code repositories
+/skill load telegram             # Already done in setup
+/skill load browser-automation   # Any website without an API</pre>
+
+  <h2>Google Workspace</h2>
+  <p>Run <code>/skill load google-workspace</code> in Telegram or terminal. You'll be prompted to authenticate via OAuth. Once connected, all agents can read Gmail, Calendar, and Drive.</p>
+
+  <h2>GitHub</h2>
+  <p>Create a personal access token with <code>repo</code> scope, then:</p>
+  <pre>export GITHUB_TOKEN=your_token_here
+/skill load github</pre>
+
+  <h2>Browser Automation</h2>
+  <p>For services without an API — POS systems, custom dashboards, legacy tools — the browser automation skill can read and interact with any web interface.</p>
+  <pre>/skill load browser-automation
+# Then describe what you need:
+"Read today's sales from my POS dashboard at https://..."</pre>
+</main>
+</body>
+</html>

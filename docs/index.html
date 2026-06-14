@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docs — PersonalOS</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e;
+      --accent: #7c3aed; --accent-light: #a78bfa;
+      --text: #e2e8f0; --muted: #94a3b8;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    aside {
+      width: 240px; flex-shrink: 0;
+      background: var(--surface); border-right: 1px solid var(--border);
+      padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2rem; display: block; }
+    .sidebar-logo span { color: var(--accent-light); }
+    .sidebar-section { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 1.5rem 0 0.5rem; }
+    .sidebar-link { display: block; padding: 0.35rem 0; font-size: 0.875rem; color: var(--muted); }
+    .sidebar-link:hover { color: var(--text); text-decoration: none; }
+    .sidebar-link.active { color: var(--accent-light); }
+
+    main { flex: 1; padding: 3rem 4rem; max-width: 780px; }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    h2 { font-size: 1.3rem; font-weight: 700; margin: 2.5rem 0 0.75rem; }
+    p { color: var(--muted); margin-bottom: 1rem; line-height: 1.7; }
+    .doc-card {
+      display: block; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .doc-card:hover { border-color: var(--accent); text-decoration: none; }
+    .doc-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+    .doc-card p { font-size: 0.875rem; color: var(--muted); margin: 0; }
+
+    @media (max-width: 700px) { aside { display: none; } main { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+<aside>
+  <a class="sidebar-logo" href="../">Personal<span>OS</span></a>
+  <div class="sidebar-section">Getting Started</div>
+  <a class="sidebar-link active" href="index.html">Overview</a>
+  <a class="sidebar-link" href="quickstart.html">Quickstart</a>
+  <div class="sidebar-section">Guides</div>
+  <a class="sidebar-link" href="creating-agents.html">Creating Agents</a>
+  <a class="sidebar-link" href="connecting-data.html">Connecting Data</a>
+  <a class="sidebar-link" href="self-improve-loop.html">Self-Improve Loop</a>
+  <div class="sidebar-section">Reference</div>
+  <a class="sidebar-link" href="https://github.com/krishnatejaganesh/personalos">GitHub</a>
+</aside>
+<main>
+  <h1>PersonalOS Docs</h1>
+  <p>Everything you need to deploy, configure, and extend your personal AI OS.</p>
+
+  <h2>Getting Started</h2>
+  <a class="doc-card" href="quickstart.html">
+    <h3>Quickstart Guide</h3>
+    <p>Deploy PersonalOS on a VPS in 30 minutes. Covers setup, configuration, and your first agent run.</p>
+  </a>
+
+  <h2>Guides</h2>
+  <a class="doc-card" href="creating-agents.html">
+    <h3>Creating Agents</h3>
+    <p>Build a custom agent with its own identity, tools, model, and cron schedule.</p>
+  </a>
+  <a class="doc-card" href="connecting-data.html">
+    <h3>Connecting Data</h3>
+    <p>Connect Gmail, Google Calendar, GitHub, and other services to your agents.</p>
+  </a>
+  <a class="doc-card" href="self-improve-loop.html">
+    <h3>Self-Improve Loop</h3>
+    <p>How PersonalOS logs outcomes and retrieves winning workflows automatically.</p>
+  </a>
+</main>
+</body>
+</html>

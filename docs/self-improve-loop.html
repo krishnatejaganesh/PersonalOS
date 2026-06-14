@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Self-Improve Loop — PersonalOS</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e; --accent: #7c3aed; --accent-light: #a78bfa; --text: #e2e8f0; --muted: #94a3b8; --code-bg: #0f0f1a; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    aside { width: 240px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .sidebar-logo { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2rem; display: block; }
+    .sidebar-logo span { color: var(--accent-light); }
+    .sidebar-section { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 1.5rem 0 0.5rem; }
+    .sidebar-link { display: block; padding: 0.35rem 0; font-size: 0.875rem; color: var(--muted); }
+    .sidebar-link:hover { color: var(--text); text-decoration: none; }
+    .sidebar-link.active { color: var(--accent-light); }
+    main { flex: 1; padding: 3rem 4rem; max-width: 780px; }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--muted); margin-bottom: 2.5rem; }
+    h2 { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 0.75rem; }
+    p { color: var(--muted); margin-bottom: 1rem; line-height: 1.7; }
+    pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: #c4b5fd; overflow-x: auto; line-height: 1.7; margin-bottom: 1.5rem; }
+    @media (max-width: 700px) { aside { display: none; } main { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+<aside>
+  <a class="sidebar-logo" href="../">Personal<span>OS</span></a>
+  <div class="sidebar-section">Getting Started</div>
+  <a class="sidebar-link" href="index.html">Overview</a>
+  <a class="sidebar-link" href="quickstart.html">Quickstart</a>
+  <div class="sidebar-section">Guides</div>
+  <a class="sidebar-link" href="creating-agents.html">Creating Agents</a>
+  <a class="sidebar-link" href="connecting-data.html">Connecting Data</a>
+  <a class="sidebar-link active" href="self-improve-loop.html">Self-Improve Loop</a>
+  <div class="sidebar-section">Reference</div>
+  <a class="sidebar-link" href="https://github.com/krishnatejaganesh/personalos">GitHub</a>
+</aside>
+<main>
+  <h1>Self-Improve Loop</h1>
+  <p class="subtitle">How PersonalOS gets smarter every day without changing the model.</p>
+
+  <h2>How it works</h2>
+  <p>Every completed task is scored and stored. Before starting a new task, agents retrieve the highest-scoring workflow for that task type and use it as a starting point.</p>
+
+  <h2>What gets stored</h2>
+  <pre>-- After every task completes
+INSERT INTO workflow_outcomes (task_type, steps, outcome, score)
+VALUES ('seo_article', '[...]', 'published, 2k views in 24h', 0.92);</pre>
+
+  <h2>What gets retrieved</h2>
+  <pre>-- Before every task starts
+SELECT steps FROM workflow_outcomes
+WHERE task_type = $1 AND score > 0.75
+ORDER BY score DESC LIMIT 1;</pre>
+
+  <h2>Scoring</h2>
+  <p>Scores are set automatically based on task outcomes (did the PR merge? did the article get traffic?) or manually via Telegram:</p>
+  <pre>"Rate that last task 0.9 — the article performed really well"</pre>
+
+  <p>Over time, your agents build a personal library of what actually works for you — independent of which model is running underneath.</p>
+</main>
+</body>
+</html>

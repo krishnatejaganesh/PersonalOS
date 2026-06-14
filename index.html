@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PersonalOS — Your Personal AI Operating System</title>
+  <meta name="description" content="Model-agnostic personal AI OS. Deploy once, swap models forever. Your memory, workflows, and agents stay intact." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --accent: #7c3aed;
+      --accent-light: #a78bfa;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --code-bg: #0f0f1a;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.1rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent-light); }
+    .nav-links { display: flex; gap: 1.5rem; font-size: 0.9rem; color: var(--muted); }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-cta {
+      background: var(--accent); color: #fff;
+      padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600;
+    }
+    .nav-cta:hover { background: #6d28d9; text-decoration: none; }
+
+    /* HERO */
+    .hero {
+      max-width: 860px; margin: 0 auto;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.4);
+      color: var(--accent-light); padding: 0.3rem 0.85rem;
+      border-radius: 999px; font-size: 0.8rem; font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 1.25rem;
+    }
+    h1 em { font-style: normal; color: var(--accent-light); }
+    .hero-sub {
+      font-size: 1.15rem; color: var(--muted);
+      max-width: 580px; margin: 0 auto 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      padding: 0.75rem 1.75rem; border-radius: 8px;
+      font-weight: 600; font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #6d28d9; text-decoration: none; }
+    .btn-secondary {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.75rem; border-radius: 8px;
+      font-weight: 600; font-size: 0.95rem;
+    }
+    .btn-secondary:hover { border-color: var(--accent-light); text-decoration: none; }
+
+    /* CODE BLOCK */
+    .hero-code {
+      max-width: 600px; margin: 3rem auto 0;
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; text-align: left;
+    }
+    .code-bar {
+      background: var(--surface); padding: 0.6rem 1rem;
+      display: flex; align-items: center; gap: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .code-bar span { margin-left: auto; font-size: 0.75rem; color: var(--muted); }
+    pre {
+      padding: 1.25rem 1.5rem;
+      font-size: 0.85rem; font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #c4b5fd; overflow-x: auto; line-height: 1.7;
+    }
+    pre .c { color: var(--muted); }
+    pre .g { color: #86efac; }
+    pre .w { color: var(--text); }
+
+    /* SECTION */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-label { color: var(--accent-light); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 560px; }
+
+    /* FEATURES */
+    .features { border-top: 1px solid var(--border); }
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: var(--accent); }
+    .feature-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.9rem; color: var(--muted); }
+
+    /* AGENTS */
+    .agents { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .agent-table { width: 100%; border-collapse: collapse; margin-top: 2.5rem; font-size: 0.9rem; }
+    .agent-table th { text-align: left; padding: 0.75rem 1rem; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); }
+    .agent-table td { padding: 1rem; border-bottom: 1px solid var(--border); }
+    .agent-table tr:last-child td { border-bottom: none; }
+    .agent-table tr:hover td { background: rgba(124,58,237,0.05); }
+    .model-pill {
+      background: rgba(124,58,237,0.15); color: var(--accent-light);
+      padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.78rem;
+    }
+
+    /* PERSONAS */
+    .persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+    .persona-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem;
+    }
+    .persona-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .persona-card p { font-size: 0.85rem; color: var(--muted); }
+
+    /* CTA */
+    .cta-section {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .cta-section h2 { margin-bottom: 1rem; }
+    .cta-section p { color: var(--muted); margin-bottom: 2rem; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.85rem; color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Personal<span>OS</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#agents">Agents</a>
+    <a href="docs/">Docs</a>
+    <a href="https://github.com/krishnatejaganesh/personalos">GitHub</a>
+  </div>
+  <a class="nav-cta" href="docs/quickstart.html">Get Started</a>
+</nav>
+
+<div class="hero">
+  <div class="badge">Open Source · Self-Hosted · Model-Agnostic</div>
+  <h1>Your personal <em>AI operating system</em></h1>
+  <p class="hero-sub">Deploy once, swap models forever. Your memory, workflows, and agents stay intact — no matter what model wins next month.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="docs/quickstart.html">Deploy in 30 minutes</a>
+    <a class="btn-secondary" href="https://github.com/krishnatejaganesh/personalos">View on GitHub</a>
+  </div>
+
+  <div class="hero-code">
+    <div class="code-bar">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <span>terminal</span>
+    </div>
+    <pre><span class="g">$</span> <span class="w">git clone https://github.com/krishnatejaganesh/personalos</span>
+<span class="g">$</span> <span class="w">cd personalos && cp .env.example .env</span>
+<span class="g">$</span> <span class="w">./scripts/setup.sh</span>
+
+<span class="c">✓ Memory layer ready (PostgreSQL)</span>
+<span class="c">✓ Agents loaded: chief-of-staff, developer, seo, researcher, support</span>
+<span class="c">✓ Model router configured (OpenRouter)</span>
+<span class="g">✓ PersonalOS is running. Say hi on Telegram.</span></pre>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="section-label">Why PersonalOS</div>
+    <h2>The model is a plugin.<br>You are the product.</h2>
+    <p class="section-sub">Every AI platform locks you in. PersonalOS puts your memory, workflows, and agents on your own server — portable forever.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>Persistent Memory</h3>
+        <p>Episodic, semantic, and workflow memory stored in your own PostgreSQL. Survives model changes, API shutdowns, and platform pivots.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Model Agnostic</h3>
+        <p>Use Claude, GPT, Gemini, Mistral, or any OpenRouter model. Swap with one config line — no data migration, no re-training.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Self-Improving Loop</h3>
+        <p>Every completed task is scored and stored. Future tasks retrieve what worked. The system gets smarter every day, automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>Specialised Agents</h3>
+        <p>Pre-built agents for code, SEO, research, support, and chief-of-staff duties. Each runs the best model for its task.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Telegram First</h3>
+        <p>Control everything from your phone. Morning briefings, task delegation, and agent replies — all in one Telegram chat.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>You Own Everything</h3>
+        <p>Your data lives on your VPS. No vendor lock-in, no terms-of-service changes, no sudden shutdowns.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="agents" id="agents">
+  <div class="section-inner">
+    <div class="section-label">Agent Roster</div>
+    <h2>A team that works while you sleep</h2>
+    <p class="section-sub">Each agent runs the best model for its job — routing cheap tasks to fast models and hard problems to powerful ones.</p>
+
+    <table class="agent-table">
+      <thead>
+        <tr>
+          <th>Agent</th>
+          <th>What it does</th>
+          <th>Default model</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Chief of Staff</strong></td>
+          <td>Morning briefings, email triage, calendar, priorities</td>
+          <td><span class="model-pill">Claude Sonnet</span></td>
+        </tr>
+        <tr>
+          <td><strong>Developer</strong></td>
+          <td>Code, PRs, debugging, architecture review</td>
+          <td><span class="model-pill">Claude Opus</span></td>
+        </tr>
+        <tr>
+          <td><strong>SEO Agent</strong></td>
+          <td>Content strategy, keyword research, article drafts</td>
+          <td><span class="model-pill">Gemini Flash</span></td>
+        </tr>
+        <tr>
+          <td><strong>Researcher</strong></td>
+          <td>Deep research, competitor analysis, reports</td>
+          <td><span class="model-pill">Perplexity</span></td>
+        </tr>
+        <tr>
+          <td><strong>Support</strong></td>
+          <td>Customer email drafts, ticket routing</td>
+          <td><span class="model-pill">Claude Haiku</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="personas">
+  <div class="section-inner">
+    <div class="section-label">Personas</div>
+    <h2>Pre-built for your life situation</h2>
+    <p class="section-sub">Clone the persona closest to you and customise from there.</p>
+
+    <div class="persona-grid">
+      <div class="persona-card">
+        <h3>Solo Founder</h3>
+        <p>Bootstrapped builder running multiple businesses. Focused on leverage.</p>
+      </div>
+      <div class="persona-card">
+        <h3>Freelancer</h3>
+        <p>Client work, project tracking, invoicing, and deadline management.</p>
+      </div>
+      <div class="persona-card">
+        <h3>Student</h3>
+        <p>Studying, research, deadlines, and knowledge management.</p>
+      </div>
+      <div class="persona-card">
+        <h3>E-commerce</h3>
+        <p>Store management, ads, inventory, and customer support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="section-inner">
+    <h2>Ready to own your AI stack?</h2>
+    <p>Deploy on a $6/mo VPS. Takes 30 minutes. Yours forever.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="docs/quickstart.html">Read the Quickstart</a>
+      <a class="btn-secondary" href="https://github.com/krishnatejaganesh/personalos">Star on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <a href="https://github.com/krishnatejaganesh/personalos">GitHub</a> ·
+    <a href="docs/">Docs</a> ·
+    <a href="https://github.com/krishnatejaganesh/personalos/blob/main/LICENSE">MIT License</a>
+  </p>
+  <p style="margin-top:0.5rem">PersonalOS is not affiliated with Anthropic, OpenAI, or Google.</p>
+</footer>
+
+</body>
+</html>
