@@ -56,10 +56,6 @@ def load_agent_configs(agents_dir: Path) -> dict[str, AgentConfig]:
 class Router:
     """Routes tasks to the right agent."""
 
-    EXPLICIT_PATTERN = re.compile(
-        r"@(?P<agent>developer|dev|seo|researcher|research|support|cs|chief)",
-        re.IGNORECASE,
-    )
     AGENT_ALIASES: dict[str, str] = {
         "dev": "developer",
         "cs": "chief-of-staff",
@@ -76,6 +72,12 @@ class Router:
         self.agents = load_agent_configs(agents_dir)
         self.fast_model = fast_model
         self.api_key = openrouter_api_key
+        # Build pattern dynamically so custom agents are picked up automatically
+        names = list(self.agents.keys()) + list(self.AGENT_ALIASES.keys())
+        pattern = "|".join(re.escape(n) for n in sorted(names, key=len, reverse=True))
+        self.EXPLICIT_PATTERN = re.compile(
+            rf"@(?P<agent>{pattern})", re.IGNORECASE
+        )
 
     # ── Public API ──────────────────────────────────────────────────────────
 

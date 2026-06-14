@@ -141,7 +141,7 @@ class WorkflowStore:
         async with self.pool.acquire() as conn:
             row = await conn.fetchrow(
                 """
-                SELECT steps, score, times_reused
+                SELECT id, steps, score, times_reused
                 FROM workflow_outcomes
                 WHERE task_type = $1
                   AND reuse = true
@@ -155,16 +155,15 @@ class WorkflowStore:
             if not row:
                 return None
 
-            # Increment reuse counter
+            # Increment reuse counter using id to avoid matching duplicate scores
             await conn.execute(
                 """
                 UPDATE workflow_outcomes
                 SET times_reused = times_reused + 1,
                     last_reused = NOW()
-                WHERE task_type = $1 AND score = $2
+                WHERE id = $1
                 """,
-                task_type,
-                row["score"],
+                row["id"],
             )
             steps = json.loads(row["steps"])
             logger.info(

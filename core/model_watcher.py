@@ -11,7 +11,9 @@ you get alerted when something better drops, not surprised by it.
 from __future__ import annotations
 
 import logging
+import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 
 import httpx
 
@@ -134,6 +136,7 @@ class ModelWatcher:
             return []
 
         current_ids = set(current_stack.values())
+        cutoff = datetime.now(timezone.utc).timestamp() - 7 * 86_400
         new: list[ModelInfo] = []
 
         for m in data.get("data", []):
@@ -142,6 +145,10 @@ class ModelWatcher:
             # Only flag models with long context (useful for agent work)
             ctx = m.get("context_length", 0)
             if ctx < 16_000:
+                continue
+            # Only flag models added in the last 7 days
+            created = m.get("created")
+            if created is not None and float(created) < cutoff:
                 continue
             pricing = m.get("pricing", {})
             new.append(ModelInfo(
@@ -160,8 +167,6 @@ class ModelWatcher:
         category: str,
     ) -> BenchmarkResult:
         """Run a quick benchmark task against the model."""
-        import time
-
         task = BENCHMARK_TASKS.get(category, BENCHMARK_TASKS["reasoning"])
         expected = EXPECTED_ANSWERS.get(category, [])
 
