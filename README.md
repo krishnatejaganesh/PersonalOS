@@ -3,7 +3,7 @@
 **Your model-agnostic personal AI operating system. Deploy once, swap models forever.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/krishnatejaganesh/personalos?style=social)](https://github.com/krishnatejaganesh/personalos)
+[![GitHub Stars](https://img.shields.io/github/stars/krishnatejaganesh/PersonalOS?style=social)](https://github.com/krishnatejaganesh/PersonalOS)
 [![Discord](https://img.shields.io/badge/Discord-Community-5865F2)](https://discord.gg/personalos)
 
 > Claude 5 drops? Change one line. GPT-5 is better at code? Swap the agent. Your memory, workflows, and business agents stay intact forever.
@@ -56,7 +56,7 @@ You'll paste both into the setup wizard in a moment.
 ### Step 3 — Run setup
 
 ```bash
-git clone https://github.com/krishnatejaganesh/personalos
+git clone https://github.com/krishnatejaganesh/PersonalOS
 cd personalos
 ./scripts/setup.sh
 ```
@@ -317,8 +317,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add:
 ## Community
 
 - [Discord](https://discord.gg/personalos)
-- [GitHub Discussions](https://github.com/krishnatejaganesh/personalos/discussions)
-- [Roadmap](https://github.com/krishnatejaganesh/personalos/projects)
+- [GitHub Discussions](https://github.com/krishnatejaganesh/PersonalOS/discussions)
+- [Roadmap](https://github.com/krishnatejaganesh/PersonalOS/projects)
 
 ## License
 
