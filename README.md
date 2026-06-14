@@ -3,7 +3,7 @@
 **Your model-agnostic personal AI operating system. Deploy once, swap models forever.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/personalos/personalos?style=social)](https://github.com/personalos/personalos)
+[![GitHub Stars](https://img.shields.io/github/stars/krishnatejaganesh/personalos?style=social)](https://github.com/krishnatejaganesh/personalos)
 [![Discord](https://img.shields.io/badge/Discord-Community-5865F2)](https://discord.gg/personalos)
 
 > Claude 5 drops? Change one line. GPT-5 is better at code? Swap the agent. Your memory, workflows, and business agents stay intact forever.
@@ -33,7 +33,7 @@ PersonalOS is an open-source personal AI operating system you deploy on your own
 ### Deploy
 
 ```bash
-git clone https://github.com/personalos/personalos
+git clone https://github.com/krishnatejaganesh/personalos
 cd personalos
 cp .env.example .env
 nano .env   # add your OpenRouter key and Telegram bot token
@@ -286,8 +286,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add:
 ## Community
 
 - [Discord](https://discord.gg/personalos)
-- [GitHub Discussions](https://github.com/personalos/personalos/discussions)
-- [Roadmap](https://github.com/personalos/personalos/projects)
+- [GitHub Discussions](https://github.com/krishnatejaganesh/personalos/discussions)
+- [Roadmap](https://github.com/krishnatejaganesh/personalos/projects)
 
 ---
 
