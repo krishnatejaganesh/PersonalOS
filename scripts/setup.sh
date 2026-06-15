@@ -199,7 +199,7 @@ SKIP_CONFIG=false
 if [[ -f .env ]]; then
     warn ".env file already exists."
     read -rp "  Overwrite it? (y/N): " overwrite
-    if [[ "${overwrite,,}" != "y" ]]; then
+    if [[ "$overwrite" != "y" && "$overwrite" != "Y" ]]; then
         info "Keeping existing .env. Skipping configuration questions."
         SKIP_CONFIG=true
     fi
